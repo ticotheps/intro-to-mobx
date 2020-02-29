@@ -43,6 +43,11 @@ const BugsForm = () => {
 	return (
 		<form
 			onSubmit={e => {
+				// adds the 'bug' from the initial state of our <form> INTO the array
+				// of 'bugs' in our MobX 'store' object.
+				store.addBug(bug);
+				// Resets our local state to an empty string after we add the bug
+				setBug('');
 				e.preventDefault();
 			}}
 		>
