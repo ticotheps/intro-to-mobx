@@ -18,6 +18,10 @@ const StoreProvider = ({ children }) => {
 	);
 };
 
+const BugsList = () => {
+	const store = React.useContext(StoreContext);
+};
+
 export default function App() {
 	return (
 		<StoreProvider>
