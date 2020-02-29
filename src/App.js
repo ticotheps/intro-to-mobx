@@ -20,6 +20,14 @@ const StoreProvider = ({ children }) => {
 
 const BugsList = () => {
 	const store = React.useContext(StoreContext);
+
+	return (
+		<ul>
+			{store.bugs.map(bug => (
+				<li key={bug}>{bug}</li>
+			))}
+		</ul>
+	);
 };
 
 export default function App() {
