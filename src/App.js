@@ -13,6 +13,14 @@ const StoreProvider = ({ children }) => {
 		bugs: ['Centipede'],
 		addBug: bug => {
 			store.bugs.push(bug);
+		},
+		// A MobX 'computed property' is a READ-only function that essentially
+		// 'gets' (or returns) a value for us that is derived from state.
+		// Because this is essentially a 'getter' function, we don't actually
+		// have to CALL the function, but we can access it like a property or
+		// attribute of a class.
+		get bugsCount() {
+			return store.bugs.length;
 		}
 	}));
 
@@ -25,6 +33,8 @@ const StoreProvider = ({ children }) => {
 const BugsList = () => {
 	const store = React.useContext(StoreContext);
 
+	// The 'useObserver' hook allows MobX to watch this <BugsList /> component
+	// for any changes and will AUTOMATICALLY re-render when it notices a change.
 	return useObserver(() => (
 		<ul>
 			{store.bugs.map(bug => (
