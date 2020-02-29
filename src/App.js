@@ -18,6 +18,7 @@ const StoreProvider = ({ children }) => {
 	);
 };
 
+// Our 'BugsList' component that gives us access to the MobX 'store'
 const BugsList = () => {
 	const store = React.useContext(StoreContext);
 
@@ -30,11 +31,36 @@ const BugsList = () => {
 	);
 };
 
+// Our 'BugsForm' component that allows us to add new bugs to the MobX 'store'
+// object inside of the 'StoreProvider()' function.
+const BugsForm = () => {
+	const store = React.useContext(StoreContext);
+	const [bug, setBug] = React.useState('');
+
+	return (
+		<form
+			onSubmit={e => {
+				e.preventDefault();
+			}}
+		>
+			<input
+				type='text'
+				value={bug}
+				onChange={e => {
+					setBug(e.target.value);
+				}}
+			/>
+			<button type='submit'>Add Bug</button>
+		</form>
+	);
+};
+
 export default function App() {
 	return (
 		<StoreProvider>
 			<main>
 				<BugsList />
+				<BugsForm />
 			</main>
 		</StoreProvider>
 	);
