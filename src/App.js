@@ -33,7 +33,9 @@ const BugsList = () => {
 export default function App() {
 	return (
 		<StoreProvider>
-			<main>Bugs!</main>
+			<main>
+				<BugsList />
+			</main>
 		</StoreProvider>
 	);
 }
