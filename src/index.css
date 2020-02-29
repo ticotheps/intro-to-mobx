@@ -15,3 +15,17 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 		monospace;
 }
+
+body,
+form {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+li,
+input,
+button {
+	font-size: 1.5rem;
+}
