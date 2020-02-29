@@ -1,7 +1,9 @@
 import React from 'react';
 import { useLocalStore, useObserver } from 'mobx-react';
 
-// Defines the context of our store using the Context API that comes with React.
+// Defines the context of our store using Context API that comes with React.
+// This prevents the need to 'prop drill' down so many levels because each
+// component gets access to the MobX 'store'
 const StoreContext = React.createContext();
 
 // Wraps around all of the components in this app.
@@ -14,7 +16,7 @@ const StoreProvider = ({ children }) => {
 		addBug: bug => {
 			store.bugs.push(bug);
 		},
-		// A MobX 'computed property' is a READ-only function that essentially
+		// A 'computed value/property' is a READ-only function that essentially
 		// 'gets' (or returns) a value for us that is derived from state.
 		// Because this is essentially a 'getter' function, we don't actually
 		// have to CALL the function, but we can access it like a property or
@@ -32,12 +34,14 @@ const StoreProvider = ({ children }) => {
 // Our 'BugsHeader' component that gives us access to the total # of bugs in
 // our 'bugs' array in the MobX 'store'
 const BugsHeader = () => {
+	// This allows for access to the MobX 'store' through the 'StoreContext'
 	const store = React.useContext(StoreContext);
 	return useObserver(() => <h1>Total Number of Bugs: {store.bugsCount}</h1>);
 };
 
 // Our 'BugsList' component that gives us access to the MobX 'store'
 const BugsList = () => {
+	// This allows for access to the MobX 'store' through the 'StoreContext'
 	const store = React.useContext(StoreContext);
 
 	// The 'useObserver' hook allows MobX to watch this <BugsList /> component
@@ -54,6 +58,7 @@ const BugsList = () => {
 // Our 'BugsForm' component that allows us to add new bugs to the MobX 'store'
 // object inside of the 'StoreProvider()' function.
 const BugsForm = () => {
+	// This allows for access to the MobX 'store' through the 'StoreContext'
 	const store = React.useContext(StoreContext);
 	const [bug, setBug] = React.useState('');
 
