@@ -29,6 +29,13 @@ const StoreProvider = ({ children }) => {
 	);
 };
 
+// Our 'BugsHeader' component that gives us access to the total # of bugs in
+// our 'bugs' array in the MobX 'store'
+const BugsHeader = () => {
+	const store = React.useContext(StoreContext);
+	return useObserver(() => <h1>Total Number of Bugs: {store.bugsCount}</h1>);
+};
+
 // Our 'BugsList' component that gives us access to the MobX 'store'
 const BugsList = () => {
 	const store = React.useContext(StoreContext);
@@ -77,6 +84,7 @@ export default function App() {
 	return (
 		<StoreProvider>
 			<main>
+				<BugsHeader />
 				<BugsList />
 				<BugsForm />
 			</main>
