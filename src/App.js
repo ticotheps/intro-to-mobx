@@ -19,5 +19,9 @@ const StoreProvider = ({ children }) => {
 };
 
 export default function App() {
-	return <main>Bugs!</main>;
+	return (
+		<StoreProvider>
+			<main>Bugs!</main>
+		</StoreProvider>
+	);
 }
