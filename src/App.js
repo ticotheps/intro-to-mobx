@@ -10,7 +10,10 @@ const StoreProvider = ({ children }) => {
 	// (1) A place where we store properties of state (the data we're tracking).
 	// (2) Contains functions that will modify those state properties.
 	const store = useLocalStore(() => ({
-		bugs: ['Centipede']
+		bugs: ['Centipede'],
+		addBug: bug => {
+			store.bugs.push(bug);
+		}
 	}));
 
 	return (
