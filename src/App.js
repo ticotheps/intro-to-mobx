@@ -25,13 +25,13 @@ const StoreProvider = ({ children }) => {
 const BugsList = () => {
 	const store = React.useContext(StoreContext);
 
-	return (
+	return useObserver(() => (
 		<ul>
 			{store.bugs.map(bug => (
 				<li key={bug}>{bug}</li>
 			))}
 		</ul>
-	);
+	));
 };
 
 // Our 'BugsForm' component that allows us to add new bugs to the MobX 'store'
