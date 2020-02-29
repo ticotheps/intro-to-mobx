@@ -12,17 +12,17 @@ const StoreProvider = ({ children }) => {
 	// (1) A place where we store properties of state (the data we're tracking).
 	// (2) Contains functions that will modify those state properties.
 	const store = useLocalStore(() => ({
-		bugs: ['Centipede'],
-		addBug: bug => {
-			store.bugs.push(bug);
+		hoopers: ['Chase Voelker', "D'Andre Cook"],
+		addHooper: hooper => {
+			store.hoopers.push(hooper);
 		},
 		// A 'computed value/property' is a READ-only function that essentially
 		// 'gets' (or returns) a value for us that is derived from state.
 		// Because this is essentially a 'getter' function, we don't actually
 		// have to CALL the function, but we can access it like a property or
 		// attribute of a class.
-		get bugsCount() {
-			return store.bugs.length;
+		get hoopersCount() {
+			return store.hoopers.length;
 		}
 	}));
 
@@ -31,56 +31,58 @@ const StoreProvider = ({ children }) => {
 	);
 };
 
-// Our 'BugsHeader' component that gives us access to the total # of bugs in
-// our 'bugs' array in the MobX 'store'
-const BugsHeader = () => {
+// Our 'HoopersHeader' component that gives us access to the total # of hoopers
+// in our 'hoopers' array in the MobX 'store'
+const HoopersHeader = () => {
 	// This allows for access to the MobX 'store' through the 'StoreContext'
 	const store = React.useContext(StoreContext);
-	return useObserver(() => <h1>Total Number of Bugs: {store.bugsCount}</h1>);
+	return useObserver(() => (
+		<h1>Total Number of Hoopers: {store.hoopersCount}</h1>
+	));
 };
 
-// Our 'BugsList' component that gives us access to the MobX 'store'
-const BugsList = () => {
+// Our 'HoopersList' component that gives us access to the MobX 'store'
+const HoopersList = () => {
 	// This allows for access to the MobX 'store' through the 'StoreContext'
 	const store = React.useContext(StoreContext);
 
-	// The 'useObserver' hook allows MobX to watch this <BugsList /> component
+	// The 'useObserver' hook allows MobX to watch this <HoopersList /> component
 	// for any changes and will AUTOMATICALLY re-render when it notices a change.
 	return useObserver(() => (
 		<ul>
-			{store.bugs.map(bug => (
-				<li key={bug}>{bug}</li>
+			{store.hoopers.map(hooper => (
+				<li key={hooper}>{hooper}</li>
 			))}
 		</ul>
 	));
 };
 
-// Our 'BugsForm' component that allows us to add new bugs to the MobX 'store'
+// Our 'HoopersForm' component that allows us to add new hoopers to the MobX 'store'
 // object inside of the 'StoreProvider()' function.
-const BugsForm = () => {
+const HoopersForm = () => {
 	// This allows for access to the MobX 'store' through the 'StoreContext'
 	const store = React.useContext(StoreContext);
-	const [bug, setBug] = React.useState('');
+	const [hooper, setHooper] = React.useState('');
 
 	return (
 		<form
 			onSubmit={e => {
-				// adds the 'bug' from the initial state of our <form> INTO the array
-				// of 'bugs' in our MobX 'store' object.
-				store.addBug(bug);
-				// Resets our local state to an empty string after we add the bug
-				setBug('');
+				// adds the 'hooper' from the initial state of our <form> INTO the array
+				// of 'hoopers' in our MobX 'store' object.
+				store.addHooper(hooper);
+				// Resets our local state to an empty string after we add the hooper
+				setHooper('');
 				e.preventDefault();
 			}}
 		>
 			<input
 				type='text'
-				value={bug}
+				value={hooper}
 				onChange={e => {
-					setBug(e.target.value);
+					setHooper(e.target.value);
 				}}
 			/>
-			<button type='submit'>Add Bug</button>
+			<button type='submit'>Add Hooper</button>
 		</form>
 	);
 };
@@ -89,9 +91,9 @@ export default function App() {
 	return (
 		<StoreProvider>
 			<main>
-				<BugsHeader />
-				<BugsList />
-				<BugsForm />
+				<HoopersHeader />
+				<HoopersList />
+				<HoopersForm />
 			</main>
 		</StoreProvider>
 	);
