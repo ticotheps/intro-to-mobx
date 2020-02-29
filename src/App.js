@@ -12,6 +12,10 @@ const StoreProvider = ({ children }) => {
 	const store = useLocalStore(() => ({
 		bugs: ['Centipede']
 	}));
+
+	return (
+		<StoreContext.Provider value={store}>{children}</StoreContext.Provider>
+	);
 };
 
 export default function App() {
