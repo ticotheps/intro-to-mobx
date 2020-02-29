@@ -1,9 +1,6 @@
 import React from 'react';
+import { useLocalStore, useObserver } from 'mobx-react';
 
 export default function App() {
-	return (
-		<div>
-			<h1>Bugs!</h1>
-		</div>
-	);
+	return <main>Bugs!</main>;
 }
