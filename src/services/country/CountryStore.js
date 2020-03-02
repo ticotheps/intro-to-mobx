@@ -1,8 +1,4 @@
-import {
-	observable,
-	runInAction, // inlines an action with another function
-	decorate // prevents the need to use decorators to decorate functions
-} from 'mobx';
+import { observable, runInAction, decorate } from 'mobx';
 import CountryService from './CountryService';
 
 class CountryStore {
@@ -15,8 +11,18 @@ class CountryStore {
 	status = 'initial';
 	searchQuery = '';
 
-	getExamplesAsync = async () => {
+	getCountriesAsync = async () => {
 		try {
+			var params = {
+				pageNumber: this.countryData.pageNumber,
+				searchQuery: this.searchQuery,
+				isAscending: this.countryData.isAscending
+			};
+			const urlParams = new URLSearchParams(Object.entries(params));
+			const data = await this.countryService.get(urlParams)
+			runInAction(() => {
+				this.countryData = data;
+			});
 		} catch (error) {
 			runInAction(() => {
 				this.status = 'error';
@@ -24,8 +30,14 @@ class CountryStore {
 		}
 	};
 
-	createExampleAsync = async model => {
+	createCountryAsync = async model => {
 		try {
+			const response = await this.countryService.post(model);
+			if (response.status === 201) {
+				runInAction(() => {
+					this.status = 'success';
+				});
+			}
 		} catch (error) {
 			runInAction(() => {
 				this.status = 'error';
@@ -33,8 +45,14 @@ class CountryStore {
 		}
 	};
 
-	updateExampleAsync = async vehicle => {
+	updateCountryAsync = async vehicle => {
 		try {
+			const response = await this.countryService.put(vehicle);
+			if (response.status === 200) {
+				runInAction(() => {
+					this.status = 'success';
+				});
+			}
 		} catch (error) {
 			runInAction(() => {
 				this.status = 'error';
@@ -44,6 +62,12 @@ class CountryStore {
 
 	deleteExampleAsync = async id => {
 		try {
+			const response = await this.countryService.delete(id);
+			if (response.status === 204) {
+				runInAction(() => {
+					this.status = 'success';
+				});
+			}
 		} catch (error) {
 			runInAction(() => {
 				this.status = 'error';
@@ -51,8 +75,8 @@ class CountryStore {
 		}
 	};
 
-	decorate(ExampleStore, {
-		exampleData: observable,
+	decorate(CountryStore, {
+		countryData: observable,
 		searchQuery: observable,
 		status: observable
 	});
